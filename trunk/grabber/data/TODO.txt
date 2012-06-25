@@ -1,0 +1,3 @@
+- sacar ventana
+- sacar que grabe el player
+- compilar en release
