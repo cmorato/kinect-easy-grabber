@@ -9,6 +9,7 @@
 #define RAW_IMAGE_H_
 
 typedef unsigned char uchar;
+typedef unsigned short ushort;
 
 class RawImage
 {
@@ -26,6 +27,11 @@ class RawImage
     {
       return data_;
     }
+
+    ushort* get16bitData () const
+	{
+	  return (ushort*)(data_);
+	}
 
     int getDepth () const
     {

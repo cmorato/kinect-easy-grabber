@@ -43,11 +43,10 @@ RawImage::loadNetpbmImage (const char *name)
   // Read header: P5-8bit, P5-16bit or P6
   char imtype[10];
   fgets(imtype, 10, fid);
-  if ( (imtype[0]!='P') && (imtype[1]!='5') )
+  if ( (imtype[0]=='P') && (imtype[1]=='5') )
   {
     channels_ = 1;
-  }
-  if ( (imtype[0]!='P') && (imtype[1]!='6') )
+  }else if ( (imtype[0]=='P') && (imtype[1]=='6') )
   {
     channels_ = 3;
   }

@@ -10,6 +10,10 @@
 
 //using namespace std;
 
+// sequences: /media/LG External HDD/Windows/kinect/secuencias/pachi_walk/depth/video_depth_1.pgm
+
+#define SEQ_PATH "/media/LG External HDD/Windows/kinect/secuencias/pachi_walk/depth/"
+
 int main (int argc, char** argv){
 
   std::cout << "hello world" << std::endl;
@@ -17,7 +21,7 @@ int main (int argc, char** argv){
   RawImage di;
 
   try{
-    di.loadImage(argv[1]);
+    di.loadImage(SEQ_PATH"video_depth_1.pgm");
   }catch (std::exception& e) {
     throw std::runtime_error(e.what());
   }
@@ -33,16 +37,17 @@ int main (int argc, char** argv){
   cloud.is_dense = false; //TODO check if nan points have to be added
   cloud.points.resize(cloud.width * cloud.height);
 
-  uchar* imdata_ptr = di.getData();
+  ushort* imdata_ptr = di.get16bitData();
   for (size_t i = 0; i < cloud.points.size(); ++i) {
     cloud.points[i].x = i % di.getWidth();
-    cloud.points[i].y = i % di.getHeight();
+    cloud.points[i].y = i / di.getHeight();
     cloud.points[i].z = imdata_ptr[i];
   }
 
   pcl::io::savePCDFileASCII("test_pcd.pcd", cloud);
   std::cerr << "Saved " << cloud.points.size()
       << " data points to test_pcd.pcd." << std::endl;
+
 //
 //  for (size_t i = 0; i < cloud.points.size(); ++i)
 //    std::cerr << "    " << cloud.points[i].x << " " << cloud.points[i].y
