@@ -18,37 +18,37 @@ class RawImage
     RawImage (const char*);
     virtual ~RawImage ();
 
-    int getChannels () const
+    inline int getChannels () const
     {
       return channels_;
     }
 
-    uchar* getData () const
+    inline uchar* getData () const
     {
       return data_;
     }
 
-    ushort* get16bitData () const
+    inline ushort* get16bitData () const
 	{
 	  return (ushort*)(data_);
 	}
 
-    int getDepth () const
+    inline int getDepth () const
     {
       return depth_;
     }
 
-    int getHeight () const
+    inline int getHeight () const
     {
       return height_;
     }
 
-    int getWidth () const
+    inline int getWidth () const
     {
       return width_;
     }
 
-    void loadImage (const char *filename)
+    inline void loadImage (const char *filename)
     {
       loadNetpbmImage (filename);
     }
