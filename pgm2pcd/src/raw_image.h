@@ -8,6 +8,8 @@
 #ifndef RAW_IMAGE_H_
 #define RAW_IMAGE_H_
 
+#include <stdexcept>
+
 typedef unsigned char uchar;
 typedef unsigned short ushort;
 
@@ -25,6 +27,7 @@ class RawImage
 
     inline uchar* getData () const
     {
+      if (!data_) throw std::runtime_error("No data allocated.");
       return data_;
     }
 
