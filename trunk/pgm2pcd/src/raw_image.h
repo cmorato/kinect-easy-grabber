@@ -56,6 +56,11 @@ class RawImage
       loadNetpbmImage (filename);
     }
 
+    inline const std::string& getComments() const
+    {
+      return comments_;
+    }
+
   protected:
     void
     loadNetpbmImage(const char *filename);
@@ -67,6 +72,7 @@ class RawImage
     int height_;
     int channels_;
     int depth_;
+    std::string comments_;
     uchar* data_;
 };
 
