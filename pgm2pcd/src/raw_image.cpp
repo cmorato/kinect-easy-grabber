@@ -55,8 +55,10 @@ RawImage::loadNetpbmImage (const char *name)
 
   // Parse comments
   fgets(line, 256, fid);
-  while(line[0]=='#')
+  while(line[0]=='#'){
+    comments_ += line;
     fgets(line, 256, fid);
+  }
 
   // Read dimensions
   width_ = strtol(line, &ptr, 10);
