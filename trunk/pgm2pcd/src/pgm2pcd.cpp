@@ -6,19 +6,10 @@
 #include <limits>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
-#include <boost/accumulators/accumulators.hpp>
-#include <boost/accumulators/statistics/stats.hpp>
-//#include <boost/accumulators/statistics/mean.hpp>
-#include <boost/accumulators/statistics/min.hpp>
-#include <boost/accumulators/statistics/max.hpp>
-#include <boost/accumulators/statistics/median.hpp>
-using namespace boost::accumulators;
-
 #include "raw_image.h"
 
 using namespace std;
 
-// sequences: /media/LG External HDD/Windows/kinect/secuencias/pachi_walk/depth/video_depth_1.pgm
 
 #define SEQ_PATH "/media/LG External HDD/Windows/kinect/secuencias/pachi_walk/"
 #define PCD_FILE "test_pcd"
@@ -31,11 +22,10 @@ void depth2PCD()
     if(di.getDepth() != 2)
       throw std::runtime_error("Not a 16 bit image");
   }catch (std::exception& e) {
-//    throw std::runtime_error(e.what());
+    throw std::runtime_error(e.what());
   }
 
   pcl::PointCloud<pcl::PointXYZ> cloud;
-  accumulator_set<ushort, stats<tag::min, tag::max, tag::median > > acc;
   // Fill in the cloud data
   cloud.width = di.getWidth();
   cloud.height = di.getHeight();
@@ -49,24 +39,11 @@ void depth2PCD()
     cloud.points[i].y = i / di.getHeight();
     if(depth!=0) cloud.points[i].z = depth;
     else cloud.points[i].z = std::numeric_limits<double>::quiet_NaN();
-
-    acc(depth);
   }
-//  std::cout << "min: "
-//            << extract_result<tag::min>(acc)
-//            << std::endl;
-//  std::cout << "max: "
-//            << extract_result<tag::max>(acc)
-//            << std::endl;
-//  std::cout << "med: "
-//            << extract_result<tag::median>(acc)
-//            << std::endl;
 
   pcl::io::savePCDFile(PCD_FILE".pcd", cloud);
   std::cerr << "Saved " << cloud.points.size()
       << " data points to "PCD_FILE".pcd." << std::endl;
-  system("pcd2ply "PCD_FILE".pcd "PCD_FILE".ply > /dev/null");
-
 }
 
 void
@@ -153,7 +130,6 @@ depthAndRGB2PCD(const char* dimage_fname, const char* cimage_fname, const char* 
   pcl::io::savePCDFile(pcdout_fname, cloud);
   std::cerr << "Saved " << cloud.points.size()
            << " data points to "<< pcdout_fname << std::endl;
-  system((std::string("pcd2ply")+" "+std::string(pcdout_fname)+" "+std::string(pcdout_fname)+".ply > /dev/null").c_str());
 }
 
 void
@@ -239,8 +215,6 @@ addRGB2PCD(const char* pcd_input, const char* pcd_output, const char* rgb_image,
   pcl::io::savePCDFile(pcd_output, cloud);
   std::cerr << "Saved " << cloud.points.size()
            << " data points to "<< pcd_output << std::endl;
-//  system("pcd2ply "PCD_FILE"_rgb.pcd "PCD_FILE"_rgb.ply > /dev/null");
-//  system((std::string("pcd2ply")+" "+std::string(pcd_input)+" "+std::string(pcd_output)+".ply > /dev/null").c_str());
 }
 
 void filterZeroDepth()
@@ -268,17 +242,36 @@ void filterZeroDepth()
   pcl::io::savePCDFile(PCD_FILE"_nan.pcd", *pcloud);
   std::cerr << "Saved " << pcloud->points.size()
             << " data points to "PCD_FILE"_nan.pcd." << std::endl;
-  system("pcd2ply "PCD_FILE"_nan.pcd "PCD_FILE"_nan.ply > /dev/null");
+}
+
+void help()
+{
+  std::cerr << "Usage:" << std::endl
+            << '\t'
+            << "pgm2pcd <deph_16bit_image> <rgb_image> <map_coords> <output_pcd_file>"
+            << std::endl;
 }
 
 int main (int argc, char** argv){
 
-  std::cout << "hello world" << std::endl;
+  std::cout << "Starting pgm2pcd v0.1" << std::endl << std::endl;
 
-//  depth2PCD();
-//  filterZeroDepth();
-  depthAndRGB2PCD(SEQ_PATH"depth/video_depth_1.pgm",SEQ_PATH"rgb/video_rgb_1.ppm",SEQ_PATH"map/video_map_1.coord",PCD_FILE"_rgb_v2.pcd");
+//  if(argc == 2)
+//    depth2PCD();
 //  addRGB2PCD(PCD_FILE".pcd",PCD_FILE"_rgb.pcd",SEQ_PATH"rgb/video_rgb_1.ppm",SEQ_PATH"map/video_map_1.coord");
+  std::cout << "Input params:" << std::endl;
+  std::cout << argv[1] << std::endl
+            << argv[2] << std::endl
+            << argv[3] << std::endl
+            << argv[4] << std::endl;
+
+  if(argc == 5)
+  {
+    //depthAndRGB2PCD(SEQ_PATH"depth/video_depth_1.pgm",SEQ_PATH"rgb/video_rgb_1.ppm",SEQ_PATH"map/video_map_1.coord",PCD_FILE"_rgb_v2.pcd");
+    depthAndRGB2PCD(argv[1],argv[2],argv[3],argv[4]);
+  }
+  else
+    help();
 
   return (0);
 }
