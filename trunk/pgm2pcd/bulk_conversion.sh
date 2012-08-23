@@ -9,7 +9,7 @@ echo ""
 
 if [ $# -lt 4 ]
 then
-	echo "ERROR: For input parameters required"
+	echo "ERROR: 4 input parameters required"
 	exit 1
 fi
 

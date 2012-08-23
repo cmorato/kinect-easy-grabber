@@ -74,7 +74,7 @@
 
 using namespace std;
 
-int main (int argc, char** argv){
+int main1 (int argc, char** argv){
 
 	pcl::PointCloud<pcl::PointXYZ> cloud;
 

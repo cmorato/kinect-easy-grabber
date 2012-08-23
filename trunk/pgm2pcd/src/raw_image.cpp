@@ -13,7 +13,7 @@
 RawImage::RawImage ()
 {
   data_ = NULL;
-  width_ = height_ = channels_, depth_ = 0;
+  width_ = height_ = channels_ = depth_ = 0;
 }
 
 RawImage::RawImage (const char* filename)
