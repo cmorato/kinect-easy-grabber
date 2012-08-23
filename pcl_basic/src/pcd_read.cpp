@@ -8,13 +8,18 @@
 #include <pcl/point_types.h>
 
 int
-main2 (int argc, char** argv)
+main (int argc, char** argv)
 {
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZ>);
+  if(argc < 2){
+    std::cout <<"Not enough parameters" << std::endl;
+    return -1;
+  }
 
-  if (pcl::io::loadPCDFile<pcl::PointXYZ> ("test_pcd.pcd", *cloud) == -1) //* load the file
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud (new pcl::PointCloud<pcl::PointXYZRGB>);
+
+  if (pcl::io::loadPCDFile<pcl::PointXYZRGB> (argv[1], *cloud) == -1) //* load the file
   {
-    PCL_ERROR ("Couldn't read file test_pcd.pcd \n");
+    PCL_ERROR ("Couldn't read pcd file.\n");
     return (-1);
   }
   std::cout << "Loaded "

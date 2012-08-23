@@ -9,6 +9,7 @@
 #include "raw_image.h"
 
 using namespace std;
+using namespace pcl;
 
 
 #define SEQ_PATH "/media/LG External HDD/Windows/kinect/secuencias/pachi_walk/"
@@ -129,7 +130,7 @@ depthAndRGB2PCD(const char* dimage_fname, const char* cimage_fname, const char* 
 
   pcl::io::savePCDFile(pcdout_fname, cloud);
   std::cerr << "Saved " << cloud.points.size()
-           << " data points to "<< pcdout_fname << std::endl;
+           << " data points to "<< pcdout_fname << endl;
 }
 
 void
@@ -252,21 +253,23 @@ void help()
             << std::endl;
 }
 
-int main (int argc, char** argv){
+int main (int argc, char** argv)
+{
 
-  std::cout << "Starting pgm2pcd v0.1" << std::endl << std::endl;
+  std::cout << "Starting pgm2pcd v0.1..." << std::endl << std::endl;
 
 //  if(argc == 2)
 //    depth2PCD();
 //  addRGB2PCD(PCD_FILE".pcd",PCD_FILE"_rgb.pcd",SEQ_PATH"rgb/video_rgb_1.ppm",SEQ_PATH"map/video_map_1.coord");
-  std::cout << "Input params:" << std::endl;
-  std::cout << argv[1] << std::endl
-            << argv[2] << std::endl
-            << argv[3] << std::endl
-            << argv[4] << std::endl;
 
   if(argc == 5)
   {
+	std::cout << "Input params:" << std::endl;
+	std::cout << argv[1] << std::endl
+			<< argv[2] << std::endl
+			<< argv[3] << std::endl
+			<< argv[4] << std::endl;
+
     //depthAndRGB2PCD(SEQ_PATH"depth/video_depth_1.pgm",SEQ_PATH"rgb/video_rgb_1.ppm",SEQ_PATH"map/video_map_1.coord",PCD_FILE"_rgb_v2.pcd");
     depthAndRGB2PCD(argv[1],argv[2],argv[3],argv[4]);
   }
