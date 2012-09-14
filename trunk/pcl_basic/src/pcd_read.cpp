@@ -6,6 +6,7 @@
 #include <iostream>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
+#include <queue>
 
 int
 main (int argc, char** argv)
@@ -30,6 +31,9 @@ main (int argc, char** argv)
     std::cout << "    " << cloud->points[i].x
               << " "    << cloud->points[i].y
               << " "    << cloud->points[i].z << std::endl;
+
+  std::queue<int> que;
+
 
   return (0);
 }

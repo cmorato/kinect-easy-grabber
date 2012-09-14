@@ -23,6 +23,8 @@ ARRAYDEPTHIMAGES=()
 ARRAYRGBIMAGES=()
 ARRAYMAPCOORDS=()
 
+mkdir ${PCDOUTPUT} 2> /dev/null
+
 index=0
 for d in ${DEPTHIMAGES}
 do
